@@ -7,8 +7,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from datetime import datetime
-from config import STATUTS, COLONNES
-from sheets import ajouter_candidature
+from config.config import STATUTS, COLONNES
+from config.sheets import ajouter_candidature
 
 console = Console()
 

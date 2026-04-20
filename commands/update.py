@@ -4,8 +4,8 @@ Commande `update` — Mettre à jour le statut d'une candidature.
 
 import questionary
 from rich.console import Console
-from sheets import get_toutes_candidatures, update_statut
-from config import STATUTS
+from config.sheets import get_toutes_candidatures, update_statut
+from config.config import STATUTS
 
 console = Console()
 

@@ -8,8 +8,8 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.markdown import Markdown
 from pathlib import Path
-from sheets import get_toutes_candidatures
-from config import (
+from config.sheets import get_toutes_candidatures
+from config.config import (
     ANTHROPIC_API_KEY,
     CLAUDE_MODEL,
     TON_PRENOM,

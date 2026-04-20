@@ -5,7 +5,7 @@ Commande `list` — Afficher toutes les candidatures dans un tableau.
 from rich.console import Console
 from rich.table import Table
 from rich.text import Text
-from sheets import get_toutes_candidatures
+from config.sheets import get_toutes_candidatures
 
 console = Console()
 

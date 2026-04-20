@@ -8,7 +8,7 @@ import typer
 from google.oauth2.service_account import Credentials
 from rich.console import Console
 from datetime import datetime
-from config import (
+from config.config import (
     GOOGLE_CREDENTIALS_FILE,
     GOOGLE_SHEET_ID,
     SHEET_NAME,

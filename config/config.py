@@ -31,24 +31,25 @@ TON_TEL = os.getenv("TON_TEL", "")
 # Ordre des colonnes dans le sheet
 COLONNES = [
     "Date",
+    "Date Relance",
+    "Intitulé",
     "Entreprise",
-    "Poste",
-    "Ville",
     "Secteur",
-    "URL offre",
-    "Contact",
-    "Email contact",
+    "Taille",
+    "Localisation",
     "Statut",
-    "Notes",
+    "Lien",
+    "Contact",
+    "Email/Tel",
+    "Note",
+    "Plateforme"
 ]
 
 STATUTS = [
-    "À envoyer",
-    "Envoyée",
-    "En attente",
-    "Relancé",
-    "Entretien planifié",
-    "Entretien passé",
+    "Postuler",
+    "Relancer",
+    "Entretien",
     "Refus",
-    "Accepté 🎉",
+    "Stage",
+    "Accepté",
 ]

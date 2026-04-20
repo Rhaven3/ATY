@@ -7,7 +7,6 @@ import gspread
 import typer
 from google.oauth2.service_account import Credentials
 from rich.console import Console
-from datetime import datetime
 from config.config import (
     GOOGLE_CREDENTIALS_FILE,
     GOOGLE_SHEET_ID,
@@ -35,10 +34,12 @@ def get_sheet():
         try:
             ws = spreadsheet.worksheet(SHEET_NAME)
         except gspread.WorksheetNotFound:
+            console.print(f"[dim]worksheet: '{SHEET_NAME}' non trouvé[/dim]")
             ws = spreadsheet.add_worksheet(title=SHEET_NAME, rows=1000, cols=len(COLONNES))
+            console.print(f"[green]worksheet: '{SHEET_NAME}' créée ![/green]")
 
         # Crée les en-têtes si la feuille est vide
-        if not ws.get_all_values():
+        if not ws.get_all_values()[0]:
             ws.append_row(COLONNES)
             _format_header(ws)
             console.print(f"[green]✅ Feuille '{SHEET_NAME}' initialisée avec les en-têtes.[/green]")
@@ -59,7 +60,7 @@ def get_sheet():
 def _format_header(ws):
     """Applique un formatage basique aux en-têtes."""
     try:
-        ws.format("A1:J1", {
+        ws.format("A1:M1", {
             "backgroundColor": {"red": 0.2, "green": 0.2, "blue": 0.2},
             "textFormat": {"bold": True, "foregroundColor": {"red": 1, "green": 1, "blue": 1}},
         })
@@ -76,6 +77,7 @@ def ajouter_candidature(data: dict) -> int:
     ws = get_sheet()
     row = [data.get(col, "") for col in COLONNES]
     ws.append_row(row, value_input_option="USER_ENTERED")
+    console.print("[green]candidature ajoutée avec succées![/green]")
     all_rows = ws.get_all_values()
     return len(all_rows)
 

@@ -43,6 +43,7 @@ def run():
     prenom = questionary.text("Prénom :", style=STYLE).ask()
     nom = questionary.text("Nom :", style=STYLE).ask()
     formation = questionary.text("Formation (ex: Bachelor Dev Web) :", style=STYLE).ask()
+    formation_futur = questionary.text("Formation Futur (ex: Master: Expert Architecte Développeur ):", style=STYLE).ask()
     ecole = questionary.text("École / Université :", style=STYLE).ask()
     email = questionary.text("Email :", style=STYLE).ask()
     tel = questionary.text("Téléphone :", style=STYLE).ask()
@@ -74,20 +75,21 @@ def run():
 # ================================
 
 # === Ton profil ===
-TON_PRENOM={prenom}
-TON_NOM={nom}
-TON_FORMATION={formation}
-TON_ECOLE={ecole}
-TON_EMAIL={email}
-TON_TEL={tel}
+PRENOM="{prenom}"
+NOM="{nom}"
+FORMATION="{formation}"
+FORMATION_FUTUR="{formation_futur}"
+ECOLE="{ecole}"
+EMAIL="{email}"
+TEL="{tel}"
 
 # === API Anthropic (Claude) ===
-ANTHROPIC_API_KEY={anthropic_key}
+ANTHROPIC_API_KEY="{anthropic_key}"
 
 # === Google Sheets ===
-GOOGLE_SHEET_ID={sheet_id}
-GOOGLE_CREDENTIALS_FILE={creds_file}
-SHEET_NAME={sheet_name}
+GOOGLE_SHEET_ID="{sheet_id}"
+GOOGLE_CREDENTIALS_FILE="{creds_file}"
+SHEET_NAME="{sheet_name}"
 """
 
     env_path.write_text(env_content, encoding="utf-8")

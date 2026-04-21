@@ -50,9 +50,11 @@ def run(filtre_statut: str = None):
     for i, c in enumerate(candidatures, 1):
         statut = c.get(COLONNES[7], "")
         color = "bright_black"
-        for statt in STATUTS:
-            if statt[0] == statut:
-                color = statt[1]
+        i=0
+        for statt in STATUTS[0]:
+            if statt == statut:
+                color = STATUTS[1][i]
+            i+=1
 
         table.add_row(
             str(i),
@@ -68,10 +70,10 @@ def run(filtre_statut: str = None):
 
     # Stats rapides
     total = len(candidatures)
-    entretiens = sum(1 for c in candidatures if STATUTS[2][0] in c.get(COLONNES[7], ""))
-    acceptes = sum(1 for c in candidatures if STATUTS[5][0] in c.get(COLONNES[7], ""))
-    refus = sum(1 for c in candidatures if STATUTS[3][0] in c.get(COLONNES[7], ""))
-    stage = sum(1 for c in candidatures if STATUTS[4][0] in c.get(COLONNES[7], ""))
+    entretiens = sum(1 for c in candidatures if STATUTS[0][2] in c.get(COLONNES[7], ""))
+    acceptes = sum(1 for c in candidatures if STATUTS[0][5] in c.get(COLONNES[7], ""))
+    refus = sum(1 for c in candidatures if STATUTS[0][3] in c.get(COLONNES[7], ""))
+    stage = sum(1 for c in candidatures if STATUTS[0][4] in c.get(COLONNES[7], ""))
 
     console.print(
         f"\n[dim]Total : [bold white]{total}[/bold white] candidature(s) · "

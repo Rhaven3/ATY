@@ -76,7 +76,7 @@ def run():
 
     statut: str = questionary.select(
         "Statut actuel :",
-        choices=STATUTS,
+        choices=STATUTS[0],
         style=style,
     ).ask()
 

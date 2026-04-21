@@ -50,10 +50,20 @@ COLONNES = [
 ]
 
 STATUTS = [
-    ["Postuler", "blue"],
-    ["Relancer", "magenta"],
-    ["Entretien", "cyan"],
-    ["Refus", "red"],
-    ["Stage", "white"],
-    ["Accepté", "green"],
+    [
+        "Postuler",
+        "Relancer",
+        "Entretien",
+        "Refus",
+        "Stage",
+        "Accepté",
+    ],
+    [
+        "blue",         
+        "magenta",
+        "cyan",
+        "red",
+        "white",
+        "green"
+    ]
 ]

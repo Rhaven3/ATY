@@ -49,8 +49,8 @@ def run():
 
     nouveau_statut = questionary.select(
         f"📊 Nouveau statut pour [bold]{candidature['Entreprise']}[/bold] :",
-        choices=STATUTS,
-        default=candidature.get("Statut", STATUTS[0]),
+        choices=STATUTS[0],
+        default=candidature.get("Statut", STATUTS[0][0]),
         style=STYLE,
     ).ask()
 

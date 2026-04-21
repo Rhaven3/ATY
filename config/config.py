@@ -67,3 +67,18 @@ STATUTS = [
         "green"
     ]
 ]
+
+PLATEFORMES = [
+    "Indeed",
+    "Linkedin",
+    "Hellowork",
+    "Welcome to the Jungle",
+    "Aidostage.com",
+    "La bonne boite",
+    "Le POOL",
+    "ADN Ouest",
+    "Manageo"
+    "Portail Entreprise",
+    "Job Dating",
+    "Autre",
+]

@@ -1,4 +1,4 @@
-# 🎯 ATY CLI
+# ATY CLI
 
 **A**lternance **T**racker p**Y**thon
 
@@ -23,7 +23,7 @@
 ### 1. Cloner et installer les dépendances
 
 ```bash
-git clone <ton-repo>
+git clone https://github.com/Rhaven3/ATY.git 
 cd alternance-tracker
 
 # Créer un environnement virtuel (recommandé)
@@ -71,87 +71,3 @@ python main.py setup
 
 Le wizard te guide pour créer ton `.env` avec toutes les infos.
 
----
-
-## 📁 Structure du projet
-
-```
-alternance-tracker/
-├── main.py              # Point d'entrée CLI
-├── config.py            # Lecture des variables d'environnement
-├── sheets.py            # Intégration Google Sheets (CRUD)
-├── commands/
-│   ├── add.py           # Ajouter une candidature
-│   ├── list_cmd.py      # Lister les candidatures
-│   ├── lettre.py        # Générer une lettre de motivation
-│   ├── update.py        # Mettre à jour un statut
-│   └── setup.py         # Assistant de configuration
-├── requirements.txt
-├── .env.example         # Template de configuration
-├── .gitignore
-└── README.md
-```
-
----
-
-## 🗂️ Structure du Google Sheet
-
-Le sheet est créé automatiquement avec ces colonnes :
-
-| Date | Entreprise | Poste | Ville | Secteur | URL offre | Contact | Email contact | Statut | Notes |
-|---|---|---|---|---|---|---|---|---|---|
-
-### Statuts disponibles
-
-- `À envoyer` → `Envoyée` → `En attente` → `Relancé`
-- `Entretien planifié` → `Entretien passé`
-- `Refus` / `Accepté 🎉`
-
----
-
-## 💡 Exemples d'utilisation
-
-```bash
-# Première fois
-python main.py setup
-
-# Ajouter une candidature chez Thales en alternance dev
-python main.py add
-
-# Voir toutes les candidatures
-python main.py list
-
-# Filtrer par statut
-python main.py list --statut "En attente"
-
-# Générer une lettre pour Thales
-python main.py lettre
-
-# Sauvegarder directement dans un fichier
-python main.py lettre --output lettres/thales.txt
-
-# Mettre à jour le statut après un entretien
-python main.py update
-```
-
----
-
-## 🔒 Sécurité
-
-- Le fichier `.env` et `credentials.json` sont dans le `.gitignore`
-- **Ne committe jamais** ces fichiers sur GitHub
-- Les données restent sur ton Google Sheet personnel
-
----
-
-## 🛠️ Dépendances
-
-| Package | Rôle |
-|---|---|
-| `typer` | Framework CLI avec sous-commandes |
-| `rich` | Affichage coloré et tableaux dans le terminal |
-| `questionary` | Prompts interactifs (select, text, confirm) |
-| `gspread` | Lecture/écriture Google Sheets |
-| `google-auth` | Authentification compte de service |
-| `anthropic` | API Claude pour les lettres de motivation |
-| `python-dotenv` | Lecture du fichier .env |

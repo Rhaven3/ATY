@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from datetime import datetime
-from config.config import STATUTS, COLONNES
+from config.config import STATUTS, COLONNES, PLATEFORMES
 from config.sheets import ajouter_candidature
 
 console = Console()
@@ -61,6 +61,7 @@ def run():
 
     platform: str = questionary.text(
         "Plateforme :",
+        choices=PLATEFORMES,
         style=style,
     ).ask()
 
@@ -114,9 +115,8 @@ def run():
     console.print(Panel(table, title="[bold cyan]Récapitulatif[/bold cyan]", border_style="cyan"))
 
     confirmer = questionary.confirm(
-        "✅  Enregistrer cette candidature ?",
+        "Enregistrer cette candidature ?",
         default=True,
-        style="bold green",
     ).ask()
 
     if not confirmer:

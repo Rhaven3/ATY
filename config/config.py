@@ -7,6 +7,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+#  TEXT configuration
+CMD = "python main.py"
+
 # Charge le fichier .env depuis la racine du projet
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -47,10 +50,10 @@ COLONNES = [
 ]
 
 STATUTS = [
-    "Postuler",
-    "Relancer",
-    "Entretien",
-    "Refus",
-    "Stage",
-    "Accepté",
+    ["Postuler", "blue"],
+    ["Relancer", "magenta"],
+    ["Entretien", "cyan"],
+    ["Refus", "red"],
+    ["Stage", "white"],
+    ["Accepté", "green"],
 ]

@@ -18,12 +18,12 @@ STYLE = questionary.Style([
 
 
 def run():
-    console.print("\n[bold cyan]🔄 Mise à jour d'une candidature[/bold cyan]\n")
+    console.print("\n[bold cyan]Mise à jour d'une candidature[/bold cyan]\n")
 
     try:
         candidatures = get_toutes_candidatures()
     except Exception as e:
-        console.print(f"[red]❌ Erreur : {e}[/red]")
+        console.print(f"[red]!! Erreur : {e}[/red]")
         return
 
     if not candidatures:
@@ -36,7 +36,7 @@ def run():
     ]
 
     selection = questionary.select(
-        "📋 Quelle candidature mettre à jour ?",
+        "Quelle candidature mettre à jour ?",
         choices=choix,
         style=STYLE,
     ).ask()
@@ -48,14 +48,14 @@ def run():
     candidature = candidatures[idx]
 
     nouveau_statut = questionary.select(
-        f"📊 Nouveau statut pour [bold]{candidature['Entreprise']}[/bold] :",
+        f"Nouveau statut pour [bold]{candidature['Entreprise']}[/bold] :",
         choices=STATUTS[0],
         default=candidature.get("Statut", STATUTS[0][0]),
         style=STYLE,
     ).ask()
 
     notes = questionary.text(
-        "📝  Mettre à jour les notes ? (laisse vide pour conserver) :",
+        "Mettre à jour les notes ? (laisse vide pour conserver) :",
         style=STYLE,
     ).ask()
 
@@ -69,4 +69,4 @@ def run():
             f"\n[bold green]✅ Statut mis à jour → [cyan]{nouveau_statut}[/cyan][/bold green]\n"
         )
     except Exception as e:
-        console.print(f"[red]❌ Erreur lors de la mise à jour : {e}[/red]")
+        console.print(f"[red]!! Erreur lors de la mise à jour : {e}[/red]")

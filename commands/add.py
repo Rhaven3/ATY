@@ -26,7 +26,7 @@ def run():
 
     # Collecte des infos via prompts interactifs
     entreprise: str = questionary.text(
-        "🏢  Nom de l'entreprise :",
+        "Nom de l'entreprise :",
         style=style,
     ).ask()
 
@@ -81,7 +81,7 @@ def run():
     ).ask()
 
     notes: str = questionary.text(
-        "📝  Notes :",
+        "Notes :",
         style=style,
     ).ask()
 
@@ -116,7 +116,7 @@ def run():
     confirmer = questionary.confirm(
         "✅  Enregistrer cette candidature ?",
         default=True,
-        style=style,
+        style="bold green",
     ).ask()
 
     if not confirmer:
@@ -135,4 +135,4 @@ def run():
             f"[bold]python main.py lettre[/bold][/dim]\n"
         )
     except Exception as e:
-        console.print(f"[red]❌ Erreur lors de l'enregistrement : {e}[/red]")
+        console.print(f"[red]!! Erreur lors de l'enregistrement : {e}[/red]")

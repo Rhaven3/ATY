@@ -11,12 +11,12 @@ from config.config import CMD, STATUTS, COLONNES
 console = Console()
 
 def run(filtre_statut: str = None):
-    console.print("\n[bold cyan]📋 Candidatures en cours[/bold cyan]\n")
+    console.print("\n[bold cyan]Candidatures en cours[/bold cyan]\n")
 
     try:
         candidatures = get_toutes_candidatures()
     except Exception as e:
-        console.print(f"[red]❌ Impossible de charger les candidatures : {e}[/red]")
+        console.print(f"[red]!! Impossible de charger les candidatures : {e}[/red]")
         return
 
     if not candidatures:

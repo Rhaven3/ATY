@@ -5,7 +5,7 @@ Commande `update` — Mettre à jour le statut d'une candidature.
 import questionary
 from rich.console import Console
 from config.sheets import get_toutes_candidatures, update_statut
-from config.config import STATUTS
+from config.config import STATUTS, COLONNES
 
 console = Console()
 
@@ -31,12 +31,12 @@ def run():
         return
 
     choix = [
-        f"{i+1}. {c['Entreprise']} — {c['Poste']} [{c.get('Statut', '?')}]"
+        f"{i+1}. {c[COLONNES[3]]} — {c[COLONNES[2]]} [{c.get(COLONNES[7], '?')}]"
         for i, c in enumerate(candidatures)
     ]
 
     selection = questionary.select(
-        "📋  Quelle candidature mettre à jour ?",
+        "📋 Quelle candidature mettre à jour ?",
         choices=choix,
         style=STYLE,
     ).ask()
@@ -48,7 +48,7 @@ def run():
     candidature = candidatures[idx]
 
     nouveau_statut = questionary.select(
-        f"📊  Nouveau statut pour [bold]{candidature['Entreprise']}[/bold] :",
+        f"📊 Nouveau statut pour [bold]{candidature['Entreprise']}[/bold] :",
         choices=STATUTS,
         default=candidature.get("Statut", STATUTS[0]),
         style=STYLE,

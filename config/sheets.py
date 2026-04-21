@@ -5,6 +5,7 @@ Toutes les opérations CRUD sur le sheet de suivi.
 
 import gspread
 import typer
+from datetime import datetime
 from google.oauth2.service_account import Credentials
 from rich.console import Console
 from config.config import (
@@ -12,6 +13,7 @@ from config.config import (
     GOOGLE_SHEET_ID,
     SHEET_NAME,
     COLONNES,
+    STATUTS
 )
 
 console = Console()
@@ -107,5 +109,9 @@ def update_statut(row_index: int, nouveau_statut: str, notes: str = None):
     ws.update_cell(sheet_row, col_statut, nouveau_statut)
 
     if notes is not None:
-        col_notes = COLONNES.index("Notes") + 1
+        col_notes = COLONNES.index("Note") + 1
         ws.update_cell(sheet_row, col_notes, notes)
+        
+    if nouveau_statut == STATUTS[1]:
+        col_date_rel = 2
+        ws.update_cell(sheet_row, col_date_rel, datetime.now().strftime("%d/%m/%Y"))

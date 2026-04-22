@@ -59,7 +59,7 @@ def run():
         style=style,
     ).ask()
 
-    platform: str = questionary.text(
+    platform: str = questionary.select(
         "Plateforme :",
         choices=PLATEFORMES,
         style=style,

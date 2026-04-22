@@ -112,6 +112,6 @@ def update_statut(row_index: int, nouveau_statut: str, notes: str = None):
         col_notes = COLONNES.index("Note") + 1
         ws.update_cell(sheet_row, col_notes, notes)
         
-    if nouveau_statut == STATUTS[1]:
+    if nouveau_statut == STATUTS[0][1]:
         col_date_rel = 2
         ws.update_cell(sheet_row, col_date_rel, datetime.now().strftime("%d/%m/%Y"))

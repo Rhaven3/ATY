@@ -162,7 +162,7 @@ def run(output_path: str = None):
     # Affichage
     console.print(Panel(
         lettre,
-        title=f"[bold cyan]Lettre — {candidature['Entreprise']} · {candidature['Poste']}[/bold cyan]",
+        title=f"[bold cyan]Lettre — {candidature[COLONNES[3]]} · {candidature[COLONNES[2]]}[/bold cyan]",
         border_style="cyan",
         padding=(1, 2),
     ))
@@ -176,7 +176,7 @@ def run(output_path: str = None):
         ).ask()
  
         if sauvegarder:
-            nom_fichier = f"lettre_{candidature['Entreprise'].replace(' ', '_')}_{candidature['Poste'].replace(' ', '_')}.txt"
+            nom_fichier = f"lettre_{candidature[COLONNES[3]].replace(' ', '_')}_{candidature[COLONNES[2]].replace(' ', '_')}.txt"
             output_path = questionary.text(
                 "📁  Nom du fichier :",
                 default=nom_fichier,
@@ -263,5 +263,5 @@ def _generer_avec_recherche(client: anthropic.Anthropic, prompt: str) -> tuple[s
 def get_candidature_info(candidature: dict) -> str:
     infos = ""
     for i in range(len(COLONNES)):
-        infos += f"- {COLONNES[i+1]} : {candidature.get(COLONNES[i+1], '')}"
+        infos += f"- {COLONNES[i]} : {candidature.get(COLONNES[i], '')}"
     return infos

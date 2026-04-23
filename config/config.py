@@ -20,7 +20,7 @@ SHEET_NAME = os.getenv("SHEET_NAME", "Candidatures")
 
 # === Anthropic (Claude) ===
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-CLAUDE_MODEL = "claude-opus-4-5"
+CLAUDE_MODEL = "claude-sonnet-4-6"
 
 # === Ton profil (pour les lettres de motivation) ===
 PRENOM = os.getenv("PRENOM", "")

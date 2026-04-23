@@ -12,12 +12,14 @@ from config.sheets import get_toutes_candidatures
 from config.config import (
     ANTHROPIC_API_KEY,
     CLAUDE_MODEL,
-    TON_PRENOM,
-    TON_NOM,
-    TON_FORMATION,
-    TON_ECOLE,
-    TON_EMAIL,
-    TON_TEL,
+    PRENOM,
+    NOM,
+    FORMATION,
+    FORMATION_FUTUR,
+    ECOLE,
+    EMAIL,
+    TEL,
+    COLONNES
 )
 
 console = Console()
@@ -29,38 +31,49 @@ STYLE = questionary.Style([
     ("highlighted", "bold cyan"),
 ])
 
+WEB_SEARCH_TOOL = {"type": "web_search_20250305", "name": "web_search"}
+MAX_ITERATION = 5
 
-def build_prompt(candidature: dict, infos_supp: str) -> str:
+
+def build_prompt(candidature: dict, infos_supp: str, writedLetter: str|None) -> str:
     return f"""Tu es un expert en rédaction de lettres de motivation pour des étudiants cherchant une alternance en France.
 
 Rédige une lettre de motivation professionnelle, percutante et personnalisée pour cette candidature.
 
+Avant de rédiger, utilise l'outil web_search pour rechercher des informations récentes et pertinentes sur l'entreprise :
+- Valeurs, culture d'entreprise, mission
+- Actualités récentes (projets, innovations, croissance)
+- Informations sur le secteur / métier visé
+- Ce qui rend cette entreprise unique ou attractive
+
 ## Informations sur le candidat
-- Prénom / Nom : {TON_PRENOM} {TON_NOM}
-- Formation : {TON_FORMATION}
-- École : {TON_ECOLE}
-- Email : {TON_EMAIL}
-- Téléphone : {TON_TEL}
+- Prénom / Nom : {PRENOM} {NOM}
+- Formation Actuel : {FORMATION}
+- Formation Futur : {FORMATION_FUTUR}
+- École : {ECOLE}
+- Email : {EMAIL}
+- Téléphone : {TEL}
 
 ## Informations sur la candidature
-- Entreprise : {candidature.get('Entreprise', '')}
-- Poste recherché : {candidature.get('Poste', '')}
-- Ville : {candidature.get('Ville', '')}
-- Secteur : {candidature.get('Secteur', '')}
-- Contact RH : {candidature.get('Contact', 'Non renseigné')}
+{get_candidature_info(candidature)}
 
 ## Informations complémentaires fournies par le candidat
 {infos_supp if infos_supp else "Aucune information supplémentaire."}
 
 ## Instructions de rédaction
 - Ton : professionnel mais dynamique, pas trop formel
-- Structure : accroche percutante → motivation pour l'entreprise → compétences → conclusion avec call-to-action
+- Structure : accroche percutante →  compétences → parcours scolaire/pro -> motivation pour l'entreprise →
 - Longueur : 3-4 paragraphes, environ 300 mots
 - Personnalise vraiment en fonction du secteur et de l'entreprise
 - Mets en valeur la complémentarité formation/alternance
 - Termine par une formule de politesse adaptée
 
-Rédige uniquement la lettre, sans commentaires ni explications supplémentaires.
+{f"""Complète uniquement les zones marquées [entre crochets] dans la lettre ci-dessous, 
+{writedLetter}
+
+en te basant sur les recherches effectuées sur l'entreprise. 
+Retourne les zones remplacées, sans commentaires, ni explications.
+""" if writedLetter else "Rédige uniquement la lettre, sans commentaires ni explications supplémentaires."}
 """
 
 
@@ -88,7 +101,7 @@ def run(output_path: str = None):
 
     # Sélection de la candidature
     choix = [
-        f"{i+1}. {c['Entreprise']} — {c['Poste']} ({c['Ville']})"
+        f"{i+1}. {c[COLONNES[2]]} — {c[COLONNES[3]]}"
         for i, c in enumerate(candidatures)
     ]
 
@@ -107,31 +120,45 @@ def run(output_path: str = None):
     # Infos supplémentaires
     console.print("\n[dim]Tu peux préciser des éléments spécifiques à l'entreprise, des projets pertinents, tes points forts...[/dim]")
     infos_supp = questionary.text(
-        "📝  Informations supplémentaires (optionnel) :",
+        "Informations supplémentaires (optionnel) :",
         style=STYLE,
         multiline=True,
     ).ask()
+    
+    iswrited = questionary.confirm(
+        "Tu as déjà une ébauche de lettre à compléter ?"
+    ).ask()
+    writedLetter = None
+    if iswrited:
+        writedLetter = questionary.text(
+            "Lettre pré-écrite, spécifié ce qui doit-être généré par des [] (ex: [pourquoi cette entreprise]) : ",
+            style=STYLE,
+            multiline=True
+        ).ask()
+        
 
-    # Génération via Claude
-    console.print(f"\n[dim cyan]⚡ Génération en cours pour [bold]{candidature['Entreprise']}[/bold]...[/dim cyan]\n")
-
+    # Génération via Claude + recherche web
+    console.print(f"\n[dim cyan]🔍 Claude recherche des infos sur [bold]{candidature['Entreprise']}[/bold]...[/dim cyan]")
+ 
     try:
         client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-        prompt = build_prompt(candidature, infos_supp or "")
-
+        prompt = build_prompt(candidature, infos_supp or "", writedLetter)
+ 
         lettre = ""
-        with console.status("[cyan]Claude rédige ta lettre...[/cyan]"):
-            message = client.messages.create(
-                model=CLAUDE_MODEL,
-                max_tokens=1024,
-                messages=[{"role": "user", "content": prompt}],
-            )
-            lettre = message.content[0].text
-
+        queries = []
+        with console.status("[cyan]Recherche en cours puis rédaction...[/cyan]"):
+            lettre, queries = _generer_avec_recherche(client, prompt)
+ 
     except Exception as e:
         console.print(f"[red]❌ Erreur API Claude : {e}[/red]")
         return
-
+ 
+    # Afficher les recherches effectuées
+    if queries:
+        console.print(f"[dim]🔎 Recherches effectuées : {' · '.join(queries)}[/dim]\n")
+    else:
+        console.print("[dim]🔎 Recherche web effectuée[/dim]\n")
+ 
     # Affichage
     console.print(Panel(
         lettre,
@@ -147,7 +174,7 @@ def run(output_path: str = None):
             default=True,
             style=STYLE,
         ).ask()
-
+ 
         if sauvegarder:
             nom_fichier = f"lettre_{candidature['Entreprise'].replace(' ', '_')}_{candidature['Poste'].replace(' ', '_')}.txt"
             output_path = questionary.text(
@@ -155,11 +182,86 @@ def run(output_path: str = None):
                 default=nom_fichier,
                 style=STYLE,
             ).ask()
-
+ 
     if output_path:
         path = Path(output_path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(lettre, encoding="utf-8")
         console.print(f"\n[bold green]✅ Lettre sauvegardée : {path.resolve()}[/bold green]")
-
+ 
     console.print("\n[dim]💡 Pense à relire et personnaliser avant d'envoyer ![/dim]\n")
+ 
+
+def _generer_avec_recherche(client: anthropic.Anthropic, prompt: str) -> tuple[str, list[str]]:
+    """
+    Boucle agentique : Claude peut faire plusieurs tours de recherche
+    avant de produire la lettre finale.
+    """
+    messages = [{"role": "user", "content": prompt}]
+    all_queries = []
+ 
+    for i in range(MAX_ITERATION):
+        response = client.messages.create(
+            model=CLAUDE_MODEL,
+            max_tokens=2048,
+            tools=[WEB_SEARCH_TOOL],
+            messages=messages,
+        )
+ 
+        # Collecter les queries de ce tour
+        for block in response.content:
+            if block.type == "tool_use" and block.name == "web_search":
+                query = block.input.get("query", "")
+                if query:
+                    all_queries.append(query)
+ 
+        # Claude a fini (plus d'appels d'outils) → extraire la lettre
+        if response.stop_reason == "end_turn":
+            lettre = next(
+                (block.text for block in response.content if block.type == "text"),
+                ""
+            )
+            return lettre, all_queries
+ 
+        # Claude veut continuer à chercher → on lui renvoie les résultats
+        if response.stop_reason == "tool_use":
+            # Ajouter la réponse de l'assistant à l'historique
+            messages.append({"role": "assistant", "content": response.content})
+ 
+            # Construire les tool_results pour chaque appel
+            tool_results = []
+            for block in response.content:
+                if block.type == "tool_result":
+                    tool_results.append({
+                        "type": "tool_result",
+                        "tool_use_id": block.tool_use_id,
+                        "content": block.content,
+                    })
+ 
+            # Si pas de tool_result explicite (l'API les gère en interne),
+            # on relance simplement pour laisser Claude continuer
+            if tool_results:
+                messages.append({"role": "user", "content": tool_results})
+            else:
+                # web_search est géré côté serveur Anthropic,
+                # on remet juste la réponse et on relance
+                messages.append({"role": "user", "content": "Continue."})
+ 
+        else:
+            # Stop reason inattendue, on sort
+            lettre = next(
+                (block.text for block in response.content if block.type == "text"),
+                ""
+            )
+            return lettre, all_queries
+
+    console.print("[yellow]Nombre max de recherches atteint.[/yellow]")
+    lettre = next((b.text for b in response.content if b.type == "text"), "")
+    return lettre, all_queries
+
+
+def get_candidature_info(candidature: dict) -> str:
+    infos = ""
+    for i in range(len(COLONNES)):
+        infos += f"- {COLONNES[i+1]} : {candidature.get(COLONNES[i+1], '')}"
+    return infos

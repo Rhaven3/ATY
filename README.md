@@ -10,11 +10,11 @@
 
 | Commande | Description |
 |---|---|
-| `python main.py setup` | ⚙️ Configuration guidée (première utilisation) |
-| `python main.py add` | ➕ Ajouter une candidature via prompts interactifs |
-| `python main.py list` | 📋 Voir toutes tes candidatures avec statuts colorés |
-| `python main.py lettre` | ✍️ Générer une lettre de motivation via Claude AI |
-| `python main.py update` | 🔄 Mettre à jour le statut d'une candidature |
+| `aty setup` | ⚙️ Configuration guidée (première utilisation) |
+| `aty add` | ➕ Ajouter une candidature via prompts interactifs |
+| `aty list` | 📋 Voir toutes tes candidatures avec statuts colorés |
+| `aty lettre` | ✍️ Générer une lettre de motivation via Claude AI |
+| `aty update` | 🔄 Mettre à jour le statut d'une candidature |
 
 ---
 
@@ -24,14 +24,9 @@
 
 ```bash
 git clone https://github.com/Rhaven3/ATY.git 
-cd alternance-tracker
+cd ATY
 
-# Créer un environnement virtuel (recommandé)
-python -m venv .venv
-source .venv/bin/activate  # Mac/Linux
-# ou : .venv\Scripts\activate  # Windows
-
-pip install -r requirements.txt
+uv tool install .
 ```
 
 ### 2. Configurer Google Sheets
@@ -66,7 +61,7 @@ pip install -r requirements.txt
 ### 4. Lancer le setup
 
 ```bash
-python main.py setup
+aty setup
 ```
 
 Le wizard te guide pour créer ton `.env` avec toutes les infos.

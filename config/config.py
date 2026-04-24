@@ -8,7 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 #  TEXT configuration
-CMD = "python main.py"
+CMD = "aty"
 
 # Charge le fichier .env depuis la racine du projet
 load_dotenv(Path(__file__).parent / ".env")

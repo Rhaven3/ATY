@@ -2,7 +2,7 @@
 
 **A**lternance **T**racker p**Y**thon
 
-> Suis tes candidatures d'alternance dans Google Sheets et génère des lettres de motivation personnalisées via Claude AI — en quelques secondes depuis ton terminal.
+> Suis tes candidatures d'alternance, de CDD/CDI ou de stage dans Google Sheets et génère des lettres de motivation personnalisées via Claude AI — en quelques secondes depuis ton terminal.
 
 ---
 

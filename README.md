@@ -19,6 +19,14 @@
 ---
 
 ## 🚀 Installation
+### 0. installe [uv](https://docs.astral.sh/uv/getting-started/installation/), un gestionnaire de projet python
+```bash
+# Windows (powershell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Linux / Mac
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
 ### 1. Cloner et installer les dépendances
 

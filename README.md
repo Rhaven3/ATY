@@ -24,8 +24,7 @@
 
 ```bash
 git clone https://github.com/Rhaven3/ATY.git 
-cd alternance-tracker
-
+cd ATY
 # Créer un environnement virtuel (recommandé)
 python -m venv .venv
 source .venv/bin/activate  # Mac/Linux

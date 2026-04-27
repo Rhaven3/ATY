@@ -1,6 +1,13 @@
 # ATY CLI
 
 **A**lternance **T**racker p**Y**thon
+```
+     ______     ______   __  __   
+    /\  __ \   /\__  _\ /\ \_\ \    
+    \ \  __ \  \/_/\ \/ \ \____ \    
+     \ \_\ \_\    \ \_\  \/\_____\   
+      \/_/\/_/     \/_/   \/_____/      
+```
 
 > Suis tes candidatures d'alternance, de CDD/CDI ou de stage dans Google Sheets et génère des lettres de motivation personnalisées via Claude AI — en quelques secondes depuis ton terminal.
 

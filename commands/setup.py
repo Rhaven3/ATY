@@ -8,7 +8,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from pathlib import Path
-from config.config import CMD
+from config.config import CMD, CONFIG_DIR, CONFIG_DIR_TEXT
 
 console = Console()
 
@@ -28,7 +28,7 @@ def run():
         border_style="cyan",
     ))
 
-    env_path = Path(".env")
+    env_path = CONFIG_DIR / ".env"
     if env_path.exists():
         overwrite = questionary.confirm(
             "!! Un fichier .env existe déjà. L'écraser ?",
@@ -60,7 +60,7 @@ def run():
     console.print("\n[dim]→ credentials.json : télécharge-le depuis Google Cloud Console[/dim]")
     creds_file = questionary.text(
         "Chemin vers credentials.json :",
-        default="credentials.json",
+        default=f"{CONFIG_DIR}/credentials.json",
         style=STYLE,
     ).ask()
 
@@ -97,7 +97,7 @@ SHEET_NAME="{sheet_name}"
 
     console.print(f"\n[bold green]✅ Fichier .env créé avec succès ![/bold green]")
     console.print("\n[bold]Prochaines étapes :[/bold]")
-    console.print(f"  [cyan]1.[/cyan] Place ton [bold]{creds_file}[/bold] dans le dossier [bold]config/[/bold] du projet")
+    console.print(f"  [cyan]1.[/cyan] Place ton [bold]{creds_file}[/bold] dans le dossier [bold]{CONFIG_DIR_TEXT}[/bold]")
     console.print("  [cyan]2.[/cyan] Partage ton Google Sheet avec l'email du compte de service")
     console.print(f"  [cyan]3.[/cyan] Lance [bold]{CMD} add[/bold] pour ajouter ta première candidature !")
     console.print()

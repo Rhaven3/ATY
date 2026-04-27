@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from datetime import datetime
-from config.config import STATUTS, COLONNES, PLATEFORMES
+from config.config import STATUTS, COLONNES, PLATEFORMES, CMD
 from config.sheets import ajouter_candidature
 
 console = Console()
@@ -132,7 +132,7 @@ def run():
         )
         console.print(
             f"[dim]Tu peux maintenant générer une lettre avec : "
-            f"[bold]python main.py lettre[/bold][/dim]\n"
+            f"[bold]{CMD} lettre[/bold][/dim]\n"
         )
     except Exception as e:
         console.print(f"[red]!! Erreur lors de l'enregistrement : {e}[/red]")

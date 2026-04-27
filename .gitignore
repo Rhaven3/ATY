@@ -12,3 +12,6 @@ wheels/
 # credentials
 credentials.json
 config/.env
+
+# test
+test.py

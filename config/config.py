@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 #  TEXT configuration
 CMD = "aty"
-CONFIG_DIR = Path.home() / ".config" / "aty"
+CONFIG_DIR = Path.home() / ".config\\aty"
 CONFIG_DIR_TEXT = "~/.config/aty/"
 CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -17,7 +17,7 @@ CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 load_dotenv(CONFIG_DIR / ".env")
 
 # === Google Sheets ===
-GOOGLE_CREDENTIALS_FILE = os.getenv("GOOGLE_CREDENTIALS_FILE", f"{CONFIG_DIR}/credentials.json")
+GOOGLE_CREDENTIALS_FILE = os.getenv("GOOGLE_CREDENTIALS_FILE", f"{CONFIG_DIR}\credentials.json")
 GOOGLE_SHEET_ID = os.getenv("GOOGLE_SHEET_ID", "")
 SHEET_NAME = os.getenv("SHEET_NAME", "Candidatures")
 

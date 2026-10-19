@@ -7,7 +7,7 @@ import questionary
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from config.config import CMD, CONFIG_DIR, CONFIG_DIR_TEXT
 
 console = Console()
@@ -60,7 +60,7 @@ def run():
     console.print("\n[dim]→ credentials.json : télécharge-le depuis Google Cloud Console[/dim]")
     creds_file = questionary.text(
         "Chemin vers credentials.json :",
-        default=f"{CONFIG_DIR}/credentials.json",
+        default=f"{CONFIG_DIR}\\credentials.json",
         style=STYLE,
     ).ask()
 
@@ -89,7 +89,7 @@ ANTHROPIC_API_KEY="{anthropic_key}"
 
 # === Google Sheets ===
 GOOGLE_SHEET_ID="{sheet_id}"
-GOOGLE_CREDENTIALS_FILE="{creds_file}"
+GOOGLE_CREDENTIALS_FILE={repr(str(PureWindowsPath(creds_file))).replace("'", "\"")}
 SHEET_NAME="{sheet_name}"
 """
 
